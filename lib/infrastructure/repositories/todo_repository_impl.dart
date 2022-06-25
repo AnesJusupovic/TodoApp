@@ -32,9 +32,23 @@ class TodoRepositoryImpl extends TodoRepository {
   Stream<Either<TodoFailure, List<Todo>>> watchAll() async* {
     // TODO: implement watchAll
     final userDoc = await firestore.userDocument();
-    yield* userDoc.todoCollection.snapshots().map((snapshot) =>
-        right<TodoFailure, List<Todo>>(snapshot.docs
+    yield* userDoc.todoCollection
+        .snapshots()
+        .map((snapshot) => right<TodoFailure, List<Todo>>(snapshot.docs
             .map((doc) => TodoModel.fromFirestore(doc).toDomain())
-            .toList()));
+            .toList()))
+        //error handling (left side)
+        .handleError((e) {
+      if (e is FirebaseException) {
+        if (e.code.contains('permission-denied') ||
+            e.code.contains('PERMISSION_DENIED')) {
+          return left(InsufficientPermissions());
+        } else {
+          return left(UnexpectedFailure());
+        }
+      } else {
+        return left(UnexpectedFailure());
+      }
+    });
   }
 }
