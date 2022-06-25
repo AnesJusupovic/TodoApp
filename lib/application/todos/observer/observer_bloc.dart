@@ -23,5 +23,17 @@ class ObserverBloc extends Bloc<ObserverEvent, ObserverState> {
           add(TodosUpdatedEvent(failureOrTodos: failureOrTodos)));
       // TODO: implement event handler
     });
+
+    on<TodosUpdatedEvent>((event, emit) {
+      event.failureOrTodos.fold(
+          (failures) => emit(ObserverFailure(todoFailure: failures)),
+          (todos) => emit(ObserverSuccess(todos: todos)));
+    });
+  }
+
+  @override
+  Future<void> close() async {
+    await _todoStreamSub?.cancel();
+    return super.close();
   }
 }
