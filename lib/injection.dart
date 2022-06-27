@@ -5,6 +5,7 @@ import 'package:todo/application/auth/authbloc/auth_bloc.dart';
 import 'package:todo/application/auth/signupform/signupform_bloc.dart';
 import 'package:todo/application/todos/controller/controller_bloc.dart';
 import 'package:todo/application/todos/observer/observer_bloc.dart';
+import 'package:todo/application/todos/todoForm/todoform_bloc.dart';
 import 'package:todo/domain/repositories/auth_repository.dart';
 import 'package:todo/domain/repositories/todo_repository.dart';
 import 'package:todo/infrastructure/repositories/auth_repository_impl.dart';
@@ -29,6 +30,7 @@ Future<void> init() async {
   //!X state management
   sl.registerFactory(() => ObserverBloc(todoRepository: sl()));
   sl.registerFactory(() => ControllerBloc(todoRepository: sl()));
+  sl.registerFactory(() => TodoformBloc(todoRepository: sl()));
 
   // ! repos
   sl.registerLazySingleton<TodoRepository>(
