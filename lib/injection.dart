@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo/application/auth/authbloc/auth_bloc.dart';
 import 'package:todo/application/auth/signupform/signupform_bloc.dart';
+import 'package:todo/application/todos/controller/controller_bloc.dart';
 import 'package:todo/application/todos/observer/observer_bloc.dart';
 import 'package:todo/domain/repositories/auth_repository.dart';
 import 'package:todo/domain/repositories/todo_repository.dart';
@@ -27,6 +28,7 @@ Future<void> init() async {
 
   //!X state management
   sl.registerFactory(() => ObserverBloc(todoRepository: sl()));
+  sl.registerFactory(() => ControllerBloc(todoRepository: sl()));
 
   // ! repos
   sl.registerLazySingleton<TodoRepository>(
