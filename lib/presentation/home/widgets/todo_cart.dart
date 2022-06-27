@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/application/todos/controller/controller_bloc.dart';
 import 'package:todo/domain/entities/todo.dart';
+import 'package:todo/presentation/routes/router.gr.dart';
 
 class TodoCard extends StatelessWidget {
   final Todo todo;
@@ -49,6 +51,9 @@ class TodoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     return InkResponse(
+      onTap: () {
+        AutoRouter.of(context).push(TodoDetailRoute(todo: todo));
+      },
       onLongPress: () {
         final controllerBloc = context.read<ControllerBloc>();
         _showDeleteDialog(context: context, bloc: controllerBloc);
