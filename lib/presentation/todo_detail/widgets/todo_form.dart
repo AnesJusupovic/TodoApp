@@ -4,6 +4,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/application/todos/todoForm/todoform_bloc.dart';
+import 'package:todo/presentation/core/custom_button.dart';
+import 'package:todo/presentation/todo_detail/widgets/color_field.dart';
 
 class TodoForm extends StatelessWidget {
   const TodoForm({Key? key}) : super(key: key);
@@ -88,6 +90,34 @@ class TodoForm extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ColorField(
+                  color: state.todo.color,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                CustomButton(
+                  buttonText: "Safe",
+                  callback: () {
+                    if (formKey.currentState!.validate()) {
+                      BlocProvider.of<TodoformBloc>(context)
+                          .add(SafaPressedEvent(body: body, title: title));
+                    } else {
+                      BlocProvider.of<TodoformBloc>(context)
+                          .add(SafaPressedEvent(body: null, title: null));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.redAccent,
+                          content: Text("Invalid Input",
+                              style: Theme.of(context).textTheme.bodyText1),
+                        ),
+                      );
+                    }
+                  },
                 ),
               ],
             ),

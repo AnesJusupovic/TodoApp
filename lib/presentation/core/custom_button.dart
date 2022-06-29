@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-class SignInRegisterButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final String buttonText;
   final Function callback;
-  const SignInRegisterButton(
+  const CustomButton(
       {Key? key, required this.buttonText, required this.callback})
       : super(key: key);
 
